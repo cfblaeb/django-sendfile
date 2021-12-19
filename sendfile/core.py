@@ -76,11 +76,11 @@ def sendfile(request, filename, attachment=False, attachment_filename=None,
         parts = ['attachment']
         if attachment_filename:
             try:
-                from django.utils.encoding import force_text
+                from django.utils.encoding import force_str
             except ImportError:
                 # Django 1.3
-                from django.utils.encoding import force_unicode as force_text
-            attachment_filename = force_text(attachment_filename)
+                from django.utils.encoding import force_unicode as force_str
+            attachment_filename = force_str(attachment_filename)
             ascii_filename = unicodedata.normalize('NFKD', attachment_filename)
             ascii_filename = ascii_filename.encode('ascii', 'ignore')
             import six
