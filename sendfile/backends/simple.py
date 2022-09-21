@@ -1,10 +1,7 @@
 import os
 import stat
 import re
-try:
-    from email.utils import parsedate_tz, mktime_tz
-except ImportError:
-    from email.Utils import parsedate_tz, mktime_tz
+from email.utils import parsedate_tz, mktime_tz
 
 from django.core.files.base import File
 from django.http import HttpResponse, HttpResponseNotModified
@@ -15,8 +12,7 @@ def sendfile(request, filename, **kwargs):
     # Respect the If-Modified-Since header.
     statobj = os.stat(filename)
 
-    if not was_modified_since(request.META.get('HTTP_IF_MODIFIED_SINCE'),
-                              statobj[stat.ST_MTIME], statobj[stat.ST_SIZE]):
+    if not was_modified_since(request.META.get('HTTP_IF_MODIFIED_SINCE'), statobj[stat.ST_MTIME], statobj[stat.ST_SIZE]):
         return HttpResponseNotModified()
 
     with File(open(filename, 'rb')) as f:
