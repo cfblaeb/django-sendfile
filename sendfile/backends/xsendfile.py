@@ -1,12 +1,9 @@
 from django.http import HttpResponse
-import six
+from django.utils.encoding import force_str
 
 
 def sendfile(request, filename, **kwargs):
     response = HttpResponse()
-    if six.PY2:
-        response['X-Sendfile'] = unicode(filename).encode('utf-8')
-    else:
-        response['X-Sendfile'] = filename # .encode('utf-8')
+    response['X-Sendfile'] = force_str(filename)
 
     return response
